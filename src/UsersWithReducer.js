@@ -2,7 +2,7 @@ import React, {useEffect, useReducer} from 'react';
 import axios from 'axios';
 import {asyncReducer} from "./AsyncReducer";
 
-function UsersUsingReducer() {
+function UsersWithReducer() {
     const [state, dispatch] = useReducer(asyncReducer, {
         loading: false,
         data: null,
@@ -55,4 +55,4 @@ function UsersUsingReducer() {
     );
 }
 
-export default UsersUsingReducer;
+export default UsersWithReducer;
