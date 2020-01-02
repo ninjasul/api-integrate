@@ -1,8 +1,9 @@
 import React from 'react';
 import Users from "./Users";
+import UsersUsingReducer from "./UsersUsingReducer";
 
 function App() {
-  return <Users />;
+  return <UsersUsingReducer />;
 }
 
 export default App;
