@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import axios from 'axios';
+import createAsyncDispatcher from "./asyncActionUtils";
+import * as api from './api';
 
 const initialState = {
     users: {
@@ -20,17 +21,21 @@ const loadingState = {
     error: null
 };
 
-const success = data => ({
-    loading: false,
-    data,
-    error: null
-});
+const success = data => {
+    return {
+        loading: false,
+        data,
+        error: null
+    }
+};
 
-const error = (error) => ({
-    loading: false,
-    data: null,
-    error: error
-});
+const error = (error) => {
+    return {
+        loading: false,
+        data: null,
+        error: error
+    };
+};
 
 function usersReducer (state, action) {
     switch(action.type) {
@@ -109,26 +114,5 @@ export function useUsersDispatch() {
     return dispatch;
 }
 
-export async function getUsers(dispatch) {
-    dispatch({ type: 'GET_USERS' });
-    try {
-        const response = await axios.get(
-            'https://jsonplaceholder.typicode.com/users'
-        );
-        dispatch({ type: 'GET_USERS_SUCCESS', data: response.data });
-    } catch (e) {
-        dispatch({ type: 'GET_USERS_ERROR', error: e });
-    }
-}
-
-export async function getUser(dispatch, id) {
-    dispatch({ type: 'GET_USER' });
-    try {
-        const response = await axios.get(
-            `https://jsonplaceholder.typicode.com/users/${id}`
-        );
-        dispatch({ type: 'GET_USER_SUCCESS', data: response.data });
-    } catch (e) {
-        dispatch({ type: 'GET_USER_ERROR', error: e });
-    }
-}
+export const getUsers = createAsyncDispatcher('GET_USERS', api.getUsers);
+export const getUser = createAsyncDispatcher('GET_USER', api.getUser);
